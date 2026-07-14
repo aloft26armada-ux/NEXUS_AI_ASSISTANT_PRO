@@ -28,7 +28,7 @@ jobs:
     - name: Set up Android NDK
       uses: android-actions/setup-ndk@v1
       with:
-        ndk-version: '25.2.9519653'
+        ndk-version: r25c
 
     - name: Build Debug APK
       run: ./gradlew assembleDebug --stacktrace
