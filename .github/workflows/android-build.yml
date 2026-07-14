@@ -25,11 +25,6 @@ jobs:
     - name: Change wrapper permissions
       run: chmod +x gradlew
 
-    - name: Set up Android NDK
-      uses: mymindstorm/setup-ndk@v1
-      with:
-        ndk-version: r25c
-
     - name: Build Debug APK
       run: ./gradlew assembleDebug --stacktrace
 
@@ -38,4 +33,3 @@ jobs:
       with:
         name: nexus-ai-debug-apk
         path: app/build/outputs/apk/debug/app-debug.apk
-
