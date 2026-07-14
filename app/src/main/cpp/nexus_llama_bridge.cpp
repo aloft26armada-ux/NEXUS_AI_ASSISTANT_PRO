@@ -45,3 +45,4 @@ Java_com_nexus_ai_core_ai_native_SafeNativeBridge_generateNativeResponse(
     env->ReleaseStringUTFChars(prompt, prompt_cstr);
     return env->NewStringUTF(response.c_str());
 }
+
