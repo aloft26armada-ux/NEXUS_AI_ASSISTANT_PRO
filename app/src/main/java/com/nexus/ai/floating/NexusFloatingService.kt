@@ -1,5 +1,6 @@
 package com.nexus.ai.floating
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -8,7 +9,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.nexus.ai.ui.components.AiOrb
 
 class NexusFloatingService : Service() {
 
@@ -16,24 +16,30 @@ class NexusFloatingService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        val channelId = "NEXUS_OVERLAY_SERVICE"
+        startForegroundServiceConfig()
+    }
+
+    private fun startForegroundServiceConfig() {
+        val channelId = "nexus_floating_channel"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, "Overlay Engine", NotificationManager.IMPORTANCE_MIN)
-            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(channel)
+            val channel = NotificationChannel(
+                channelId,
+                "Nexus Floating Service",
+                NotificationManager.IMPORTANCE_LOW
+            )
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
         }
 
-        val notification = NotificationCompat.Builder(this, channelId)
-            .setContentTitle("NEXUS Ambient Layer Active")
-            .setContentText("Omnipresent system assistant overlay executing in foreground mode.")
-            .setSmallIcon(android.R.drawable.presence_online)
+        val notification: Notification = NotificationCompat.Builder(this, channelId)
+            .setContentTitle("Nexus AI Assistant")
+            .setContentText("Floating assistant is active")
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
             .build()
 
-        startForeground(9912, notification)
-
-        FloatingWindowManager.injectSystemOverlay(this) {
-            // Self contained floating UI composition roots
-            AiOrb(modifier = androidx.compose.ui.Modifier.run { androidx.compose.ui.Modifier.size(100.dp) })
-        }
+        startForeground(1, notification)
+    }
+}
     }
 
     override fun onDestroy() {
