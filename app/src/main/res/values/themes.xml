@@ -1,5 +1,5 @@
 <resources>
-    <style name="Theme.NexusAI" parent="Android:Theme.Material.NoActionBar">
+    <style name="Theme.NexusAI" parent="@android:style/Theme.Material.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@android:color/black</item>
     </style>
