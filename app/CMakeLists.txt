@@ -23,3 +23,4 @@ target_link_libraries(
 target_link_libraries(
         nexus_whisper_bridge
         ${log-lib})
+
