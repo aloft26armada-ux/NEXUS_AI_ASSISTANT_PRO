@@ -12,6 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
-rootProject.name = "NEXUS-AI-Assistant"
+rootProject.name = "NexusAIAssistantPro"
 include(":app")
