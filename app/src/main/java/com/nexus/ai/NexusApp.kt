@@ -15,10 +15,10 @@ class NexusApp : Application(), Configuration.Provider {
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
-            .setMinimumLoggingLevel(android.util.Log.INFO)
             .build()
-
+            
     override fun onCreate() {
         super.onCreate()
+        // Initialization for app components goes here
     }
 }
