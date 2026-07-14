@@ -26,7 +26,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Set up Android NDK
-      uses: android-actions/setup-ndk@v1
+      uses: mymindstorm/setup-ndk@v1
       with:
         ndk-version: r25c
 
