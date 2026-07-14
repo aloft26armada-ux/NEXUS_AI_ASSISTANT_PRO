@@ -84,3 +84,4 @@ exec "$JAVACMD" \
     "-Dorg.gradle.appname=$APP_BASE_NAME" \
     -classpath "$APP_HOVER/gradle/wrapper/gradle-wrapper.jar" \
     org.gradle.wrapper.GradleWrapperMain "$@"
+
