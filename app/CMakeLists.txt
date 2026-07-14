@@ -1,18 +1,8 @@
 cmake_minimum_required(VERSION 3.22.1)
-project("nexusai_native")
+project("nexus_ai")
 
-set(CMAKE_CXX_STANDARD 17)
+add_library(nexus_llama_bridge SHARED src/main/cpp/nexus_llama_bridge.cpp)
 
-# Internal paths definition
-set(CPP_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp)
+find_library(log-lib log)
 
-add_library(nexus_ai SHARED
-        ${CPP_SRC_DIR}/nexus_llama_bridge.cpp
-        ${CPP_SRC_DIR}/nexus_whisper_bridge.cpp
-)
-
-# Target link instructions matching mobile optimization chipsets
-target_link_libraries(nexus_ai
-        log
-        android
-)
+target_link_libraries(nexus_llama_bridge ${log-lib})
