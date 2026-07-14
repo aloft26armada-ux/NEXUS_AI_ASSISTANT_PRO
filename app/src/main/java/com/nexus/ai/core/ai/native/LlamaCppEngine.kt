@@ -1,39 +1,22 @@
 package com.nexus.ai.core.ai.native
 
-import com.nexus.ai.core.ai.InferenceToken
-import com.nexus.ai.core.ai.LlmInferenceEngine
-import com.nexus.ai.core.performance.DeviceMemoryProfileClassifier
-import kotlinx.coroutines.channels.awaitClose
+import com.nexus.ai.core.ai.LlamaEngine
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import java.util.concurrent.atomic.AtomicLong
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class LlamaCppEngine @Inject constructor(
-    private val hardwareClassifier: DeviceMemoryProfileClassifier
-) : LlmInferenceEngine {
-
-    private val contextHandle = AtomicLong(0)
-
-    override suspend fun initializeEngine(modelPath: String): Boolean {
-        if (contextHandle.get() != 0L) return true
-        val allocation = hardwareClassifier.computeCurrentHardwareAllocation()
-        val handle = LlamaNativeBridge.nativeInitializeEngine(
-            modelPath,
-            allocation.optimalContextLength,
-            allocation.threadsAllocation
-        )
-        if (handle != 0L) {
-            contextHandle.set(handle)
-            return true
-        }
-        return false
+    private val nativeBridge: SafeNativeBridge
+) : LlamaEngine {
+    override suspend fun initialize(modelPath: String): Boolean {
+        return nativeBridge.initializeLlama(modelPath)
     }
 
-    override fun streamModelInference(prompt: String): Flow<InferenceToken> = callbackFlow {
-        val currentHandle = contextHandle.get()
+    override fun generateResponse(prompt: String): Flow<String> = flow {
+        val result = nativeBridge.generateLlamaResponse(prompt)
+        emit(result)
+    }
+}
         if (currentHandle == 0L) {
             trySend(InferenceToken.OperationalFailure(IllegalStateException("Engine structural pointer uninitialized.")))
             close()
