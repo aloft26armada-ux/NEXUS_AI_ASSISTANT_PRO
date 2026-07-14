@@ -74,3 +74,4 @@ interface UserSettingsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveSettings(settings: UserSettingsEntity)
 }
+
